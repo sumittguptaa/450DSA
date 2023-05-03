@@ -9,6 +9,9 @@ import About from './components/About/About';
 import Footer from './components/Footer/Footer';
 import ReactGA from 'react-ga';
 import './App.css';
+import pdfMake from "pdfmake/build/pdfmake";
+import pdfFonts from "pdfmake/build/vfs_fonts";
+pdfMake.vfs = pdfFonts.pdfMake.vfs;
 
 // Creating a theme context
 export const ThemeContext = createContext(null);
@@ -68,12 +71,70 @@ function App() {
 	// export 450DSA-Progress data
 
 	function exportData(callback) {
-		exportDBData((data) => {
-			const fileData = JSON.stringify(data);
-			const blob = new Blob([fileData], { type: 'text/plain' });
-			saveAs(blob, 'progress.json');
-			callback();
-		});
+		// exportDBData((data) => {
+		// 	const fileData = JSON.stringify(data);
+		// 	const blob = new Blob([fileData], { type: 'text/plain' });
+		// 	saveAs(blob, 'progress.json');
+		// 	callback();
+		// });
+ exportDBData((data) => {
+   const topics = data.map((topic) => ({
+     text: topic.topicName,
+     margin: [0, 10, 0, 5],
+     bold: true,
+     fontSize: 14,
+   }));
+
+   const questionTables = data.map((topic) => {
+     const questions = topic.questions.map((question, index) => [
+       { text: `Question ${index + 1}:`, bold: true },
+       { text: question.Problem },
+       { text: `Done: ${question.Done ? "Yes" : "No"}` },
+       { text: `Bookmark: ${question.Bookmark ? "Yes" : "No"}` },
+       { text: `Notes: ${question.Notes || "None"}` },
+       { text: `URL: ${question.URL}` },
+       { text: `URL2: ${question.URL2}` },
+       { text: "" },
+     ]);
+     return {
+       style: "table",
+       table: {
+         widths: ["*", "*", "*", "*", "*", "*", "*", "*"],
+         body: [
+           [
+             { text: "Question", bold: true },
+             { text: "Problem", bold: true },
+             { text: "Done", bold: true },
+             { text: "Bookmark", bold: true },
+             { text: "Notes", bold: true },
+             { text: "URL", bold: true },
+             { text: "URL2", bold: true },
+             { text: "", bold: true },
+           ],
+           ...questions,
+         ],
+       },
+     };
+   });
+
+   const docDefinition = {
+     content: [
+       { text: "Progress Report", style: "header" },
+       ...topics,
+       ...questionTables,
+     ],
+     styles: {
+       header: { fontSize: 18, bold: true, margin: [0, 0, 0, 10] },
+       table: { margin: [0, 10, 0, 10] },
+     },
+   };
+
+   const pdfDocGenerator = pdfMake.createPdf(docDefinition);
+   pdfDocGenerator.getBlob((blob) => {
+     saveAs(blob, "progress.pdf");
+     callback();
+   });
+ });
 	}
 
 	// import 450DSA-Progress data

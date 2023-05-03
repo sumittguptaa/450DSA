@@ -63,9 +63,9 @@ export default function About({ resetData, exportData, importData }) {
 						</h2>
 						<h4 className="text-center my-5">
 							Project by{" "}
-							<a href="https://www.linkedin.com/in/asishraju/" target="_blank" rel="noopener noreferrer">
-								Asish
-							</a>{" "}
+			
+								Sumit Siddarth and Utkarsh
+							{" "}
 							<span role="img" aria-label="code-men">
 								👨🏻‍💻
 							</span>

@@ -20,7 +20,7 @@
 
 /* Marked Complete */
 .Toastify__toast.toast-Done {
-	background: #27ae60;
+	background: #d6248f;
 }
 
 .Toastify__toast.toast-Done .Toastify__progress-bar {
@@ -69,7 +69,7 @@
 .note-section {
 	background: rgb(255, 255, 255);
 	display: none;
-	border: 2px solid #27ae60;
+	border: 2px solid #e5e916;
 	border-radius: 5px;
 	position: relative;
 	margin-bottom: 0.5em;
@@ -97,7 +97,7 @@
 	display: none;
 	position: relative;
 	width: 5em;
-	background: #dc3545;
+	background: #770511;
 	margin-right: 0.3em;
 	border-radius: 0.3em;
 	color: white;
@@ -106,7 +106,7 @@
 .note-save {
 	display: none;
 	position: relative;
-	background: #27ae60;
+	background: #17f674;
 	width: 5em;
 	border-radius: 0.3em;
 	margin-right: 0.3em;
